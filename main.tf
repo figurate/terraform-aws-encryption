@@ -8,7 +8,7 @@ resource "aws_kms_key" "key" {
   enable_key_rotation = true
 }
 
-resource "aws_kms_alias" "service_params_key" {
+resource "aws_kms_alias" "key" {
   count         = var.alias != null ? 1 : 0
   target_key_id = aws_kms_key.key.id
   name          = "alias/${var.alias}"
