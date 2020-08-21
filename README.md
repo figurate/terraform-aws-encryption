@@ -21,5 +21,7 @@ No requirements.
 
 ## Outputs
 
-No output.
+| Name | Description |
+|------|-------------|
+| key\_arn | The ARN of the customer-managed key |
 
