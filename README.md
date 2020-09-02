@@ -16,8 +16,10 @@ No requirements.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| admins | A list of principal ARNs for key administrators | `list(string)` | `[]` | no |
 | alias | An alias string associated with the key | `any` | `null` | no |
 | description | The key description | `any` | `null` | no |
+| users | A list of principal ARNs for key users | `list(string)` | `[]` | no |
 
 ## Outputs
 
