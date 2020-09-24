@@ -15,61 +15,73 @@ data "aws_iam_policy_document" "policy" {
       type        = "AWS"
     }
   }
-  statement {
-    sid = "Allow access for Key Administrators"
-    actions = [
-      "kms:Create*",
-      "kms:Describe*",
-      "kms:Enable*",
-      "kms:List*",
-      "kms:Put*",
-      "kms:Update*",
-      "kms:Revoke*",
-      "kms:Disable*",
-      "kms:Get*",
-      "kms:Delete*",
-      "kms:TagResource",
-      "kms:UntagResource",
-      "kms:ScheduleKeyDeletion",
-      "kms:CancelKeyDeletion"
-    ]
-    resources = ["*"]
-    principals {
-      identifiers = var.admins
-      type        = "AWS"
+
+  dynamic statement {
+    for_each = length(var.admins) > 0 ? [1] : []
+    content {
+      sid = "Allow access for Key Administrators"
+      actions = [
+        "kms:Create*",
+        "kms:Describe*",
+        "kms:Enable*",
+        "kms:List*",
+        "kms:Put*",
+        "kms:Update*",
+        "kms:Revoke*",
+        "kms:Disable*",
+        "kms:Get*",
+        "kms:Delete*",
+        "kms:TagResource",
+        "kms:UntagResource",
+        "kms:ScheduleKeyDeletion",
+        "kms:CancelKeyDeletion"
+      ]
+      resources = ["*"]
+      principals {
+        identifiers = var.admins
+        type        = "AWS"
+      }
     }
   }
-  statement {
-    sid = "Allow use of the key"
-    actions = [
-      "kms:Encrypt",
-      "kms:Decrypt",
-      "kms:ReEncrypt*",
-      "kms:GenerateDataKey*",
-      "kms:DescribeKey"
-    ]
-    resources = ["*"]
-    principals {
-      identifiers = var.users
-      type        = "AWS"
+
+  dynamic statement {
+    for_each = length(var.users) > 0 ? [1] : []
+    content {
+      sid = "Allow use of the key"
+      actions = [
+        "kms:Encrypt",
+        "kms:Decrypt",
+        "kms:ReEncrypt*",
+        "kms:GenerateDataKey*",
+        "kms:DescribeKey"
+      ]
+      resources = ["*"]
+      principals {
+        identifiers = var.users
+        type        = "AWS"
+      }
     }
   }
-  statement {
-    sid = "Allow attachment of persistent resources"
-    actions = [
-      "kms:CreateGrant",
-      "kms:ListGrants",
-      "kms:RevokeGrant"
-    ]
-    resources = ["*"]
-    condition {
-      test     = "Bool"
-      values   = ["true"]
-      variable = "kms:GrantIsForAWSResource"
-    }
-    principals {
-      identifiers = var.users
-      type        = "AWS"
+
+  dynamic statement {
+    for_each = length(var.users) > 0 ? [1] : []
+    content {
+      sid = "Allow attachment of persistent resources"
+      actions = [
+        "kms:CreateGrant",
+        "kms:ListGrants",
+        "kms:RevokeGrant"
+      ]
+      resources = ["*"]
+      condition {
+        test     = "Bool"
+        values   = ["true"]
+        variable = "kms:GrantIsForAWSResource"
+      }
+      principals {
+        identifiers = var.users
+        type        = "AWS"
+      }
     }
   }
 }
