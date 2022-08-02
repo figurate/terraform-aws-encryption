@@ -6,13 +6,16 @@
 data "aws_caller_identity" "current" {}
 
 data "aws_iam_policy_document" "policy" {
-  statement {
-    sid       = "Enable IAM User Permissions"
-    actions   = ["kms:*"]
-    resources = ["*"]
-    principals {
-      identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
-      type        = "AWS"
+  dynamic statement {
+    for_each var.toggle_root_access ? 1 : 0
+    content {
+      sid       = "Enable IAM User Permissions"
+      actions   = ["kms:*"]
+      resources = ["*"]
+      principals {
+        identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
+        type        = "AWS"
+      }
     }
   }
 
