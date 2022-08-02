@@ -19,3 +19,9 @@ variable "users" {
   type        = list(string)
   default     = []
 }
+
+variable "toggle_root_access" {
+  description = "Toggle access for root to the KMS key"
+  type        = bool
+  default     = false
+}
