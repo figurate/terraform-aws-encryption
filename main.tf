@@ -6,15 +6,7 @@
 data "aws_caller_identity" "current" {}
 
 data "aws_iam_policy_document" "policy" {
-  statement {
-    sid       = "Enable IAM User Permissions"
-    actions   = ["kms:*"]
-    resources = ["*"]
-    principals {
-      identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
-      type        = "AWS"
-    }
-  }
+
 
   dynamic statement {
     for_each = length(var.admins) > 0 ? [1] : []
@@ -89,6 +81,7 @@ data "aws_iam_policy_document" "policy" {
 resource "aws_kms_key" "key" {
   description         = var.description
   enable_key_rotation = true
+  policy              = data.aws_iam_policy_document.policy.json
 }
 
 resource "aws_kms_alias" "key" {
