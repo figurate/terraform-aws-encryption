@@ -5,19 +5,6 @@
  */
 data "aws_caller_identity" "current" {}
 
-data "aws_iam_policy_document" "admin_access" {
-  statement {
-    sid       = "Enable IAM User Permissions"
-    actions   = ["kms:*"]
-    resources = ["*"]
-    principals {
-      identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
-      type        = "AWS"
-      
-    }
-  }
-}
-
 data "aws_iam_policy_document" "policy" {
   dynamic statement {
     for_each = var.toggle_root_access ? true : false
