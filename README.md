@@ -1,5 +1,7 @@
 # ![AWS](aws-logo.png) KMS customer-managed key (CMK)
 
+[![CI](https://github.com/figurate/terraform-aws-kms-key/actions/workflows/main.yml/badge.svg)](https://github.com/figurate/terraform-aws-kms-key/actions/workflows/main.yml)
+
 Purpose: Configure a KMS key
 
 ## Requirements
@@ -26,4 +28,5 @@ No requirements.
 | Name | Description |
 |------|-------------|
 | key\_arn | The ARN of the customer-managed key |
+| key\_id | KMS Customer-managed Key identifier |
 

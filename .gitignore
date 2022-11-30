@@ -1,3 +1,4 @@
 # Created by .ignore support plugin (hsz.mobi)
 terraform-aws-kms-key.iml
 .terraform/
+.terraform.lock.hcl
